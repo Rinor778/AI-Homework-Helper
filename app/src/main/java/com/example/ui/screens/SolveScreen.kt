@@ -29,6 +29,10 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -50,6 +54,7 @@ fun SolveScreen(
     val isPro by viewModel.isPro.collectAsState()
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
+    val focusManager = LocalFocusManager.current
     val scrollState = rememberScrollState()
 
     val subjects = listOf("Math", "Physics", "Chemistry", "Biology", "English", "History", "Programming", "General")
@@ -300,6 +305,8 @@ fun SolveScreen(
             onValueChange = { viewModel.updateQuestion(it) },
             label = { Text("Type your homework question...") },
             placeholder = { Text("e.g., What is photosynthesis? or Solve 2x + 5 = 15") },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
             modifier = Modifier
                 .fillMaxWidth()
                 .heightIn(min = 100.dp),
@@ -340,7 +347,10 @@ fun SolveScreen(
 
         // Solve Button
         Button(
-            onClick = { viewModel.solveQuestion() },
+            onClick = {
+                focusManager.clearFocus()
+                viewModel.solveQuestion()
+            },
             enabled = !solveState.isLoading,
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
