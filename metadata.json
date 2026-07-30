@@ -1,0 +1,6 @@
+{
+  "name": "AI Homework Assistant",
+  "description": "Smart study companion for instant homework help, step-by-step math & science explanations, photo solver, essay writer, and test prep.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
